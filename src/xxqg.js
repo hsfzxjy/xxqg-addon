@@ -209,9 +209,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 return
             }
 
-            if (/学习研究\s\|/.test(title)) selectArticle()
+            if (/学习研究\s\|/.test(title)) {
+                selectArticle()
+                return
+            }
             if (document.body.innerHTML.indexOf('打印') >= 0 && document.body.innerHTML.indexOf('编辑') >= 0) {
                 autoRead(250)
+                return
             }
             if (/学习电视台\s\|/.test(title)) {
                 setTimeout(() => {
@@ -223,8 +227,12 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     })
                 }, 4000);
+                return
             }
-            if (/学习电视台片库\s\|/.test(title)) selectVideo()
+            if (/学习电视台片库\s\|/.test(title)) {
+                selectVideo()
+                return
+            }
             if ($('video').length) {
                 const begin = Date.now()
                 setInterval(() => {
@@ -233,6 +241,7 @@ document.addEventListener('DOMContentLoaded', () => {
                         gotoPoints()
                     window.scrollTo(0, delta * (document.body.scrollHeight - 1000));
                 }, 2000)
+                return
             }
 
             if (location.href.indexOf('login') >= 0) return

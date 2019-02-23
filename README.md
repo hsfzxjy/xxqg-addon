@@ -10,21 +10,23 @@
 
 ## 安装
 
-支持 Chrome 原生插件和 TamperMonkey （俗称「油猴」）脚本两种安装方式。不熟悉 TamperMonkey 的用户推荐使用第一种。
+本插件依赖于 TamperMonkey（俗称「油猴」）。
 
 ### 油猴安装
 
-从 [这里](./build/xxqg.js) 下载脚本。
-
-### Chrome 插件安装
-
-从 [这里](https://github.com/hsfzxjy/xxqg-addon/raw/master/build/xxqg-addon.crx) 下载插件。
+从 [这里](https://github.com/hsfzxjy/xxqg-addon/raw/master/build/tamper_monkey_4_8_0.crx) 下载 TamperMonkey。
 
 在 Google Chrome 新标签页键入 `chrome://extensions` 打开插件面板。
 
 勾选 Developer Mode / 开发者模式 选项，一般在右上角。
 
-将下载好的 `xxqg-addon.crx` 文件拖入页面中，即可完成插件的安装。
+将下载好的 `tamper_monkey_4_8_0.crx` 文件拖入页面中，即可完成油猴的安装。
+
+### 安装刷分脚本
+
+![./tm-logo.png]()
+
+点击右上角工具栏中的 TamperMonkey 图标，选择 DashBoard/管理面板，切换到 Utilities/实用工具 标签页，在 URL 输入框中键入 https://github.com/hsfzxjy/xxqg-addon/raw/master/build/xxqg.js，点击导入，即可完成安装。
 
 ## 使用
 
