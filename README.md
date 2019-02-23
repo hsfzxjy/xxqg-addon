@@ -18,7 +18,7 @@
 
 ### Chrome 插件安装
 
-从 [这里](./build/xxqg-addon.crx) 下载插件。
+从 [这里](https://github.com/hsfzxjy/xxqg-addon/raw/master/build/xxqg-addon.crx) 下载插件。
 
 在 Google Chrome 新标签页键入 `chrome://extensions` 打开插件面板。
 
