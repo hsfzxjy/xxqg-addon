@@ -92,7 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 let count = 0
                 console.debug($('.my-points-card-text'));
                 $('.my-points-card-text').forEach((ele, i) => {
-                    ele.innerHTML.replace(/.*(\d+).*\/(.*?)(\d+).*/g, (_, x, __, y) => results[i] = [parseInt(x), parseInt(y)]);
+                    ele.innerHTML.replace(/(.*?)(\d+).*\/(.*?)(\d+).*/g, (_, __, x, ___, y) => results[i] = [parseInt(x), parseInt(y)]);
                     count ++
                 })
                 if (!count) { setTimeout(() => resolve(readProgress()), 500); return}
