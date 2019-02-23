@@ -24,7 +24,7 @@
 
 ### 安装刷分脚本
 
-![./tm-logo.png]()
+![](./tm-logo.png)
 
 点击右上角工具栏中的 TamperMonkey 图标，选择 DashBoard/管理面板，切换到 Utilities/实用工具 标签页，在 URL 输入框中键入 https://github.com/hsfzxjy/xxqg-addon/raw/master/build/xxqg.js，点击导入，即可完成安装。
 
