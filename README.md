@@ -12,7 +12,7 @@
 
 本插件依赖于 TamperMonkey（俗称「油猴」）。
 
-### 油猴安装
+### 安装 TamperMonkey
 
 从 [这里](https://github.com/hsfzxjy/xxqg-addon/raw/master/build/tamper_monkey_4_8_0.crx) 下载 TamperMonkey。
 
