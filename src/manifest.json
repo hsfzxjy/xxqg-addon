@@ -1,0 +1,23 @@
+{
+    "name": "XXQG Addon",
+    "version": "1.0.0",
+    "manifest_version": 2,
+    "description": "",
+    "homepage_url": "https://github.com",
+    "content_scripts": [
+    	{
+    		"run_at": "document_start",
+    		"js": ["xxqg.js"],
+    		"matches": ["https://pc.xuexi.cn/*", "https://www.xuexi.cn/*"],
+    		"all_frames": true
+    	}
+    ],
+    "browser_action": {
+        "default_title": "Inject!"
+    },
+    "permissions": [
+        "https://*/*",
+        "http://*/*",
+        "tabs"
+    ]
+}
