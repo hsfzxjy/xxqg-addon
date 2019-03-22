@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XXQG Addon
 // @namespace    http://tampermonkey.net/
-// @version      1.0
+// @version      1.1
 // @include       https://*xuexi.cn*
 // @grant        none
 // @run-at       document-start
@@ -18,7 +18,8 @@ function getMenus () {
     document.querySelectorAll('a').forEach(e => {
         const text = e.innerHTML.trim()
         menus[e.innerHTML.trim()] = e.href
-        if (text === '学习研究') flag = true
+        console.log(text)
+        if (text === '学习理论') flag = true
     })
     const status = localStorage.getItem('status') || ''
     menus.status = status
@@ -37,7 +38,7 @@ function getMenus () {
 const oldDocFunc = document.addEventListener.bind(document)
 
 document.addEventListener = function () {
-    console.log(arguments)
+    // console.log(arguments)
     if (arguments[0].toLowerCase().indexOf('visibilitychange') >= 0) {
         console.log('hacked visibilitychange')
         return
@@ -48,7 +49,7 @@ document.addEventListener = function () {
 const oldWinFunc = window.addEventListener.bind(window)
 
 window.addEventListener = function () {
-    console.log(arguments)
+    // console.log(arguments)
     if (arguments[0].toLowerCase().indexOf('focus') >= 0 || arguments[0].toLowerCase().indexOf('blur') >= 0) {
         console.log('hacked focus and blur')
         return
@@ -197,7 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 readProgress().then(progress => {
                     console.log(progress);
                     if (progress[1][0] < progress[1][1] || progress[3][0] < progress[3][1]) {
-                        gotoAList('学习研究');
+                        gotoAList('学习理论');
                         return
                     }
                     if (progress[2][0] < progress[2][1] || progress[4][0] < progress[4][1]) {
@@ -209,7 +210,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return
             }
 
-            if (/学习研究\s\|/.test(title)) {
+            if (/学习理论\s\|/.test(title)) {
                 selectArticle()
                 return
             }
