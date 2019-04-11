@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         XXQG Addon
 // @namespace    http://tampermonkey.net/
-// @version      1.1
+// @version      1.2
 // @include       https://*xuexi.cn*
 // @grant        none
 // @run-at       document-start
@@ -18,11 +18,11 @@ function getMenus () {
     document.querySelectorAll('a').forEach(e => {
         const text = e.innerHTML.trim()
         menus[e.innerHTML.trim()] = e.href
-        console.log(text)
         if (text === '学习理论') flag = true
     })
     const status = localStorage.getItem('status') || ''
     menus.status = status
+
     try {
         if (flag) window.top.postMessage(JSON.stringify(menus), 'https://pc.xuexi.cn')
     } catch (e) {
@@ -33,6 +33,8 @@ function getMenus () {
     } catch (e) {
         console.warn(e)
     }
+
+    return menus;
 }
 
 const oldDocFunc = document.addEventListener.bind(document)
@@ -49,7 +51,6 @@ document.addEventListener = function () {
 const oldWinFunc = window.addEventListener.bind(window)
 
 window.addEventListener = function () {
-    // console.log(arguments)
     if (arguments[0].toLowerCase().indexOf('focus') >= 0 || arguments[0].toLowerCase().indexOf('blur') >= 0) {
         console.log('hacked focus and blur')
         return
@@ -57,7 +58,17 @@ window.addEventListener = function () {
     return oldWinFunc(...arguments)
 };
 
-document.addEventListener('DOMContentLoaded', () => {
+function fireOnReady (func) {
+    if (document.readyState === 'complete') {
+        setTimeout(func, 3000);
+    } else {
+        let f = () => setTimeout(func, 3000);
+        document.addEventListener('DOMContentLoaded', f, false);
+        window.addEventListener('load', f, false);
+    }
+}
+
+fireOnReady(() => {
     (function($, css, run) {
         'use strict';
         if (window != window.top) {
@@ -69,7 +80,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function waitMenus () {
 
-            return new Promise(resolve => {
+            console.log($('iframe'));
+
+            if ($('iframe').length === 0) {
+                return new Promise(resolve => {
+                    menus = getMenus();
+                    resolve();
+                })
+            }
+
+            return new Promise((resolve, reject) => {
                 window.addEventListener('message', e => {
                     menus = JSON.parse(e.data)
                     if (menus.status === undefined) return
@@ -131,24 +151,29 @@ document.addEventListener('DOMContentLoaded', () => {
             new Promise(resolve => {
                 setTimeout(() => {
                     let id = 0
-                    const t = parseInt(3 * Math.random())
-                    $('.custom-radio').forEach(ele => {
+                    const t = parseInt(4 * Math.random())
+                    console.log($('div.tab-item'));
+                    $('div.tab-item').forEach(ele => {
                         console.log(ele.value);
 
-                        if (/重要活动视频专辑|学习专题报道|学习新视界|十九大报告视频|新闻联播/g.test(ele.value)) {
+                        if (/重要活动视频专辑|学习专题报道|学习新视界|十九大报告视频|新闻联播/g.test(ele.innerHTML)) {
                             if (id == t) {
                                 ele.click();
-                                resolve();
+                                setTimeout(() => {
+                                    $('span.list')[0].click();
+                                    resolve();
+                                }, 2000);
                             }
                             id++
                         }
                     });
                 }, 2000);
             }).then(() => {
-                let items = $('.word-item:first-child')
+                let items = $('.text-link-item-title')
+                console.log(items);
                 window.open = url => { location.href = url };
                 let id = parseInt(Math.random() * (items.length - 1));
-                items[id].click();
+                items[id].childNodes[0].click();
             });
         }
 
@@ -156,10 +181,10 @@ document.addEventListener('DOMContentLoaded', () => {
             new Promise(resolve => {
                 resolve()
             }).then(() => {
-                let items = $('.word-item:first-child')
+                let items = $('.text-link-item-title')
                 window.open = url => { location.href = url };
                 let id = parseInt(Math.random() * (items.length - 1));
-                items[id].click();
+                items[id].childNodes[0].click();
             });
         }
         // selectItem();
@@ -167,8 +192,13 @@ document.addEventListener('DOMContentLoaded', () => {
         function toggleStatus (status) {
             localStorage.setItem('status', status)
 
+            if ($('iframe').length < 1) {
+                localStorage.setItem('status', status);
+                return new Promise(resolve => resolve());
+            }
+
             if (window == window.top) {
-                $('iframe')[0].contentWindow.postMessage('ts' + status, 'https://www.xuexi.cn')
+                $('iframe')[1].contentWindow.postMessage('ts' + status, 'https://www.xuexi.cn')
                 return new Promise(resolve => {
                     setTimeout(() => resolve(), 500)
                 })
@@ -177,7 +207,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function main () {
             const status = menus.status
-            console.log(status)
             let text, func
             if (status) {
                 text = '停止刷分';
@@ -210,7 +239,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 return
             }
 
-            if (/学习理论\s\|/.test(title)) {
+            if (/<span.*?>学习理论<\/span>/.test(document.body.innerHTML)) {
                 selectArticle()
                 return
             }
@@ -218,19 +247,19 @@ document.addEventListener('DOMContentLoaded', () => {
                 autoRead(250)
                 return
             }
-            if (/学习电视台\s\|/.test(title)) {
+            if (/<p.*?>学习电视台<\/p>/.test(document.body.innerHTML)) {
                 setTimeout(() => {
-                    $('a').forEach(e => {
+                    document.querySelectorAll('span.text').forEach(e => {
                         if (e.innerHTML.indexOf('第一频道') >= 0) {
                             window.open = x => { location.href = x }
                             e.removeAttribute('_target')
                             e.click()
                         }
                     })
-                }, 4000);
+                }, 2000);
                 return
             }
-            if (/学习电视台片库\s\|/.test(title)) {
+            if (/<span.*?>学习电视台片库<\/span>/.test(document.body.innerHTML)) {
                 selectVideo()
                 return
             }
