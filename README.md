@@ -1,6 +1,6 @@
 # XXQG 刷分插件
 
-当前版本：2021.0222
+当前版本：2021.0222 。XXQG 官网在 [这里](https://www.xuexi.cn)
 
 可以自动刷满网页版支持的 25 分，包括：
 
@@ -29,7 +29,7 @@
 
 ![](./tm-logo.png)
 
-点击右上角工具栏中的 TamperMonkey 图标，选择 管理面板（DashBoard），切换到 实用工具（Utilities） 标签页，在 URL 输入框中键入 https://cdn.jsdelivr.net/gh/hsfzxjy/xxqg-addon/src/xxqg.js ，点击导入，即可完成安装。
+点击右上角工具栏中的 TamperMonkey 图标，选择 管理面板（DashBoard），切换到 实用工具（Utilities） 标签页，在 URL 输入框中键入 https://cdn.jsdelivr.net/gh/hsfzxjy/xxqg-addon@2021.0222/src/xxqg.js ，点击导入，即可完成安装。
 
 ## 使用
 
