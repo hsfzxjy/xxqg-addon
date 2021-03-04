@@ -90,7 +90,7 @@ class Comm {
     constructor() {
         this.events = new EventEmitter()
         this.origins = ['https://pc.xuexi.cn', 'https://www.xuexi.cn']
-        this.sending = false
+        this.querying = false
 
         window.addEventListener('message', e => {
             const payload = JSON.parse(e.data)
@@ -131,7 +131,7 @@ class Comm {
         } else {
             result = Promise.all(promises)
         }
-        return result.finally(() => self.querying = true)
+        return result.finally(() => self.querying = false)
     }
     listen(name, cb) {
         this.events.on(name, (payload, e) => {
@@ -193,7 +193,12 @@ comm.listen('get-menus', async (_, reply) => {
 const UI = {
     menus: {},
     async getMenus() {
-        await poll(() => /ICP备案|layout-footer|iframe_wrap/.test(document.body.innerHTML))
+        try {
+
+            await poll(() => /ICP备案|layout-footer|iframe_wrap/.test(document.body.innerHTML), 10000)
+        } catch (e) {
+            await router.reload()
+        }
         await sleep(300)
         const $menu = $("#root .menu")
         let menus = {}
